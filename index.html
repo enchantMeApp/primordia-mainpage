@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Primordia - Survive on abandoned containment islands filled with prehistoric creatures. Explore, battle, craft, and tame dinosaurs in this browser-based survival RPG.">
+    <meta name="keywords" content="primordia, dinosaur game, survival game, browser game, creature taming, turn-based rpg, crafting game">
+    <meta property="og:title" content="Primordia - Survive the Prehistoric Islands">
+    <meta property="og:description" content="Explore abandoned containment islands, battle prehistoric creatures, and fight for survival in this immersive browser-based RPG.">
+    <meta property="og:type" content="website">
+    <title>Primordia - Survive the Prehistoric Islands</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #22c55e;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #0a0a0a;
+            border-bottom: 4px solid #22c55e;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+            letter-spacing: 4px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e; }
+            to { text-shadow: 0 0 20px #22c55e, 0 0 30px #22c55e, 0 0 40px #22c55e; }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(180deg, #000000 0%, #0a1f0a 100%);
+            border-bottom: 2px solid #22c55e;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #4ade80;
+            text-shadow: 0 0 15px #22c55e;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            color: #86efac;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #22c55e;
+            color: #000000;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            border: 3px solid #4ade80;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button:hover {
+            background-color: #4ade80;
+            box-shadow: 0 0 20px #22c55e;
+            transform: scale(1.05);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+            border-bottom: 1px solid #166534;
+        }
+
+        section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #4ade80;
+            text-align: center;
+            text-shadow: 0 0 10px #22c55e;
+        }
+
+        section h3 {
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            color: #86efac;
+        }
+
+        /* Lore Section */
+        .lore {
+            background-color: #0a0a0a;
+        }
+
+        .lore-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .lore-text p {
+            margin-bottom: 20px;
+            color: #86efac;
+        }
+
+        .warning-box {
+            background-color: #14532d;
+            border: 3px solid #ef4444;
+            border-left: 10px solid #ef4444;
+            padding: 20px;
+            margin: 30px 0;
+            color: #fca5a5;
+        }
+
+        .warning-box strong {
+            color: #ef4444;
+            font-size: 1.2em;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: #000000;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background-color: #0a1f0a;
+            border: 3px solid #22c55e;
+            padding: 30px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(34, 197, 94, 0.4);
+            border-color: #4ade80;
+        }
+
+        .feature-card h3 {
+            color: #4ade80;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .feature-card p {
+            color: #86efac;
+            margin-top: 10px;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            background-color: #0a0a0a;
+        }
+
+        .roadmap-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .roadmap-phase {
+            background-color: #0a1f0a;
+            border-left: 5px solid #22c55e;
+            padding: 25px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .roadmap-phase.completed {
+            border-left-color: #4ade80;
+        }
+
+        .roadmap-phase.in-progress {
+            border-left-color: #facc15;
+        }
+
+        .roadmap-phase.planned {
+            border-left-color: #64748b;
+        }
+
+        .phase-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .completed .phase-status {
+            background-color: #4ade80;
+            color: #000000;
+        }
+
+        .in-progress .phase-status {
+            background-color: #facc15;
+            color: #000000;
+        }
+
+        .planned .phase-status {
+            background-color: #64748b;
+            color: #000000;
+        }
+
+        .roadmap-phase h3 {
+            margin-top: 0;
+            color: #4ade80;
+        }
+
+        .roadmap-phase ul {
+            margin-left: 20px;
+            color: #86efac;
+        }
+
+        .roadmap-phase ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .roadmap-phase ul li:before {
+            content: "▸";
+            position: absolute;
+            left: -10px;
+            color: #22c55e;
+        }
+
+        /* Gameplay Section */
+        .gameplay {
+            background-color: #000000;
+        }
+
+        .gameplay-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gameplay-item {
+            background-color: #0a1f0a;
+            border: 2px solid #166534;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .gameplay-item h4 {
+            color: #4ade80;
+            margin-bottom: 10px;
+        }
+
+        .gameplay-item p {
+            color: #86efac;
+            font-size: 0.95em;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            border-top: 4px solid #22c55e;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            color: #86efac;
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #4ade80;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #22c55e;
+            text-shadow: 0 0 10px #22c55e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2em;
+            }
+
+            section h2 {
+                font-size: 2em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Terminal effect */
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: #22c55e;
+            padding: 20px;
+            background-color: #000000;
+            border: 2px solid #22c55e;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .terminal-text::before {
+            content: "> ";
+            color: #4ade80;
+        }
+
+        /* Scanline effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">PRIMORDIA</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>SURVIVE THE PREHISTORIC ISLANDS</h1>
+            <p class="subtitle">Explore. Battle. Tame. Survive.</p>
+            <a href="/frontend/" class="cta-button">Enter Primordia</a>
+        </div>
+    </section>
+
+    <section class="lore">
+        <div class="container">
+            <h2>THE DISCOVERY</h2>
+            <div class="lore-text">
+                <p>
+                    In 2024, satellite imagery revealed something impossible—a chain of uncharted islands in the South Pacific, 
+                    shrouded by perpetual storm systems that had hidden them from modern detection for centuries. When the clouds 
+                    finally parted, the world discovered the Primordia Archipelago.
+                </p>
+                <p>
+                    Initial reconnaissance missions uncovered the truth: these weren't natural islands. Ancient containment 
+                    facilities, built by an unknown civilization, had preserved ecosystems filled with creatures that should 
+                    have been extinct for millions of years. Dinosaurs, megafauna, and species never catalogued by science 
+                    roamed freely across these forgotten lands.
+                </p>
+                <p>
+                    The discovery sparked a modern gold rush. Fortune seekers, scientists, poachers, and adventurers flocked 
+                    to the archipelago, lured by promises of untold wealth from rare genetic samples, exotic resources, and 
+                    the chance to tame living legends. Companies offered exorbitant sums for viable dinosaur DNA. Black markets 
+                    exploded with demand for creature parts worth more than diamonds.
+                </p>
+                
+                <div class="warning-box">
+                    <strong>⚠ WARNING ⚠</strong><br>
+                    But the islands held a terrible secret. Some electromagnetic phenomenon—whether ancient technology or 
+                    natural anomaly—creates an impenetrable barrier around the archipelago. Ships can sail in, but cannot 
+                    sail out. Aircraft experience complete system failures upon entry. Communication with the outside world 
+                    is impossible.
+                </div>
+
+                <p>
+                    Those who came seeking fortune found themselves trapped in a prehistoric nightmare. Now, thousands of 
+                    survivors struggle to stay alive, establishing makeshift camps, learning to hunt, craft, and fight. Some 
+                    have given up hope of escape and built new lives. Others desperately search for a way to break the barrier.
+                </p>
+                <p>
+                    The islands are unforgiving. Resources are scarce. Territories are contested. Massive alpha predators 
+                    rule their domains. And every day, more ships arrive, bringing fresh souls into the trap—new competition 
+                    for dwindling supplies, or perhaps new allies in the fight for survival.
+                </p>
+                <p class="terminal-text">
+                    You arrived three days ago. Your supplies are running low. The jungle grows darker. 
+                    Will you master this world, or become another casualty of Primordia?
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>GAME FEATURES</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Dynamic Exploration</h3>
+                    <p>
+                        Traverse diverse biomes across the archipelago. Each location offers unique resources, creatures, 
+                        and challenges. Scout unknown territories to discover rare materials and legendary beasts.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚔️</div>
+                    <h3>Tactical Combat</h3>
+                    <p>
+                        Engage in strategic turn-based battles. Build a party of tamed creatures, each with unique abilities 
+                        and stats. Every encounter requires careful planning and tactical decision-making.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🦖</div>
+                    <h3>Creature Taming</h3>
+                    <p>
+                        Weaken and capture wild dinosaurs and prehistoric beasts. Train your roster, level up your 
+                        companions, and assemble the ultimate survival party. Over 50 species to discover and tame.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔨</div>
+                    <h3>Crafting System</h3>
+                    <p>
+                        Harvest resources from the environment and fallen creatures. Craft weapons, armor, tools, and supplies. 
+                        Master advanced blueprints to create powerful equipment for you and your creatures.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Resource Management</h3>
+                    <p>
+                        Scavenge fiber, wood, stone, and rare materials. Manage your inventory and carry weight. Balance 
+                        immediate needs with long-term survival strategies.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Progressive Gameplay</h3>
+                    <p>
+                        Start as a struggling survivor and grow into a master of Primordia. Gain experience, unlock new 
+                        abilities, and access previously unreachable territories as you grow stronger.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gameplay">
+        <div class="container">
+            <h2>HOW IT PLAYS</h2>
+            
+            <h3>Your Journey Begins</h3>
+            <p style="color: #86efac; margin-bottom: 20px;">
+                You wake up on the beach of a mysterious island, your ship wrecked behind you. With limited supplies and 
+                no way home, you must quickly learn to survive in this prehistoric world.
+            </p>
+
+            <div class="gameplay-features">
+                <div class="gameplay-item">
+                    <h4>🏕️ Establish Your Base</h4>
+                    <p>
+                        Your camp serves as a safe haven. Return here to craft, manage your roster, and prepare for expeditions. 
+                        As you progress, upgrade your facilities and unlock new crafting options.
+                    </p>
+                </div>
+
+                <div class="gameplay-item">
+                    <h4>🌲 Explore & Harvest</h4>
+                    <p>
+                        Venture into the wild to gather essential resources. Harvest fiber from plants, chop wood, mine stone, 
+                        and hunt creatures for materials. Each biome offers different resources and dangers.
+                    </p>
+                </div>
+
+                <div class="gameplay-item">
+                    <h4>👊 Engage in Combat</h4>
+                    <p>
+                        Wild creatures won't give up without a fight. Enter turn-based battles where positioning, timing, and 
+                        strategy determine victory. Use your party's abilities wisely to overcome powerful foes.
+                    </p>
+                </div>
+
+                <div class="gameplay-item">
+                    <h4>🎒 Catch & Train</h4>
+                    <p>
+                        Weaken creatures in battle, then attempt to capture them. Successfully caught creatures join your roster. 
+                        Train them through combat to increase their stats and unlock new abilities.
+                    </p>
+                </div>
+
+                <div class="gameplay-item">
+                    <h4>⚒️ Craft Equipment</h4>
+                    <p>
+                        Use gathered resources to craft weapons, armor, and tools. Better equipment means better survival chances. 
+                        Discover rare blueprints to craft legendary items.
+                    </p>
+                </div>
+
+                <div class="gameplay-item">
+                    <h4>🏆 Master Primordia</h4>
+                    <p>
+                        Progress through increasingly dangerous territories. Face alpha predators, unlock secret areas, and 
+                        uncover the mysteries of the containment facilities. Can you find a way to escape?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roadmap">
+        <div class="container">
+            <h2>DEVELOPMENT ROADMAP</h2>
+            <div class="roadmap-container">
+                
+                <div class="roadmap-phase completed">
+                    <span class="phase-status">✓ Completed</span>
+                    <h3>Core Systems - Alpha v0.1</h3>
+                    <ul>
+                        <li>User authentication and account management</li>
+                        <li>Base camp and player progression system</li>
+                        <li>Dynamic location generation and exploration</li>
+                        <li>Resource harvesting with Redis caching</li>
+                        <li>Real-time harvest tracking via WebSocket</li>
+                        <li>Turn-based battle system</li>
+                        <li>Creature roster management</li>
+                        <li>Basic inventory and equipment system</li>
+                        <li>Crafting system with blueprints</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase in-progress">
+                    <span class="phase-status">⚡ In Development</span>
+                    <h3>Enhanced Gameplay - Alpha v0.2</h3>
+                    <ul>
+                        <li>Creature catching and taming mechanics</li>
+                        <li>Advanced combat abilities and status effects</li>
+                        <li>Equipment durability and repair system</li>
+                        <li>Expanded crafting recipes and rare blueprints</li>
+                        <li>Location scouting and territory control</li>
+                        <li>Performance optimization for large-scale battles</li>
+                        <li>Enhanced UI/UX with improved responsiveness</li>
+                        <li>Creature AI behavior patterns</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase planned">
+                    <span class="phase-status">📋 Planned</span>
+                    <h3>World Expansion - Beta v0.3</h3>
+                    <ul>
+                        <li>Multiple biomes (Jungle, Desert, Mountains, Coastal, Volcanic)</li>
+                        <li>Weather system affecting combat and exploration</li>
+                        <li>Day/night cycle with time-based mechanics</li>
+                        <li>Alpha predators and boss encounters</li>
+                        <li>Rare creature variants and mutations</li>
+                        <li>Resource nodes with regeneration mechanics</li>
+                        <li>Camp upgrades and building system</li>
+                        <li>Achievement and quest system</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase planned">
+                    <span class="phase-status">📋 Planned</span>
+                    <h3>Advanced Features - Beta v0.4</h3>
+                    <ul>
+                        <li>Skill tree and character specialization</li>
+                        <li>Creature breeding and genetics system</li>
+                        <li>Trading post and player-driven economy</li>
+                        <li>Expeditions to ancient containment facilities</li>
+                        <li>Mysterious lore fragments and story progression</li>
+                        <li>Hardcore survival mode with permadeath</li>
+                        <li>Leaderboards and competitive rankings</li>
+                        <li>Mobile responsive design</li>
+                    </ul>
+                </div>
+
+                <div class="roadmap-phase planned">
+                    <span class="phase-status">🔮 Future Vision</span>
+                    <h3>Multiplayer & Social - v1.0+</h3>
+                    <ul>
+                        <li>Cooperative expeditions with other players</li>
+                        <li>PvP arenas and creature battles</li>
+                        <li>Guilds and faction warfare</li>
+                        <li>Shared territories and resource competition</li>
+                        <li>Player trading and marketplace</li>
+                        <li>Seasonal events and limited-time content</li>
+                        <li>Escape endgame: unlock the barrier and escape Primordia</li>
+                        <li>New game+ with increased difficulty and rewards</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="hero">
+        <div class="container">
+            <h2>READY TO SURVIVE?</h2>
+            <p class="subtitle">The islands are waiting. Your adventure begins now.</p>
+            <a href="/frontend/" class="cta-button">Play Now - Free</a>
+            <p style="margin-top: 30px; color: #86efac; font-size: 0.9em;">
+                Browser-based • No download required • Always updated
+            </p>
+            
+            <div style="margin-top: 50px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: #4ade80; margin-bottom: 15px; font-size: 1.3em;">📧 Join the Newsletter</h3>
+                <p style="color: #86efac; margin-bottom: 20px; font-size: 0.95em;">
+                    Get updates on new features, creatures, and major releases
+                </p>
+                <form action="https://formsubmit.co/your-email@example.com" method="POST" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    <!-- Formsubmit Configuration -->
+                    <input type="hidden" name="_subject" value="New Primordia Newsletter Signup!">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="_honey" style="display:none">
+                    
+                    <input 
+                        type="email" 
+                        name="email" 
+                        placeholder="your.email@example.com" 
+                        required
+                        style="flex: 1; min-width: 250px; padding: 12px 20px; background-color: #0a1f0a; border: 2px solid #22c55e; color: #86efac; font-family: 'Courier New', monospace; font-size: 1em; border-radius: 5px;"
+                    >
+                    <button 
+                        type="submit"
+                        style="padding: 12px 30px; background-color: #22c55e; color: #000000; border: 2px solid #4ade80; font-weight: bold; font-family: 'Courier New', monospace; font-size: 1em; cursor: pointer; border-radius: 5px; transition: all 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#4ade80'; this.style.boxShadow='0 0 15px #22c55e';"
+                        onmouseout="this.style.backgroundColor='#22c55e'; this.style.boxShadow='none';"
+                    >
+                        Subscribe
+                    </button>
+                </form>
+                <p style="margin-top: 10px; color: #64748b; font-size: 0.8em;">
+                    We respect your privacy. No spam, unsubscribe anytime.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Primordia. An open-source survival game.</p>
+            <p>
+                <a href="https://github.com" target="_blank">GitHub</a> • 
+                <a href="/frontend/">Play Game</a> • 
+                <a href="mailto:contact@primordia.game">Contact</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 0.85em; color: #64748b;">
+                This is an early alpha version. Features and gameplay are subject to change.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
