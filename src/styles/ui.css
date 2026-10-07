@@ -1,0 +1,702 @@
+/* ============================================================
+   PRIMORDIA UNIFIED UI — the single stylesheet for every screen.
+   Races the existing Tailwind theme layers, so these rules win.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Courier+Prime&display=swap');
+
+:root,
+.dark {
+  /* ---- THE ONE FONT ---- */
+  --ui-font: 'Share Tech Mono', 'VT323', 'Courier Prime', Consolas, 'Courier New', monospace;
+  --font-mono: var(--ui-font);
+  --retro-font: var(--ui-font);
+  --retro-font-alt: var(--ui-font);
+
+  /* ---- PALETTE ---- */
+  --ui-black: #000000;
+  --ui-blue: #1a3a5c;
+  --ui-blue-deep: #0f2440;
+  --ui-blue-border: #4a7a9c;
+  --ui-blue-bright: #2a6aac;
+  --ui-amber: #d4a017;
+  --ui-amber-bright: #e8b830;
+  --ui-amber-dim: #8a6a0d;
+  --ui-text: #c0c0c0;
+  --ui-text-dim: #888888;
+
+  /* All backgrounds are black */
+  --background: var(--ui-black);
+  --foreground: var(--ui-text);
+  --card: var(--ui-black);
+  --card-foreground: var(--ui-text);
+  --popover: var(--ui-black);
+  --popover-foreground: var(--ui-text);
+  --primary: var(--ui-blue);
+  --primary-foreground: #c0e0ff;
+  --secondary: var(--ui-black);
+  --secondary-foreground: var(--ui-text);
+  --muted: var(--ui-black);
+  --muted-foreground: var(--ui-text-dim);
+  --accent: var(--ui-blue);
+  --accent-foreground: #c0e0ff;
+  --destructive: #aa3333;
+  --destructive-foreground: #ffcccc;
+  --border: #333333;
+  --input: var(--ui-black);
+  --input-background: var(--ui-black);
+  --ring: var(--ui-amber);
+  --sidebar: var(--ui-black);
+  --sidebar-foreground: var(--ui-text);
+  --sidebar-primary: var(--ui-blue);
+  --sidebar-primary-foreground: #c0e0ff;
+  --sidebar-accent: var(--ui-blue);
+  --sidebar-accent-foreground: #c0e0ff;
+  --sidebar-border: #333333;
+  --sidebar-ring: var(--ui-amber);
+  --retro-bg: var(--ui-black);
+  --retro-bg-light: var(--ui-black);
+  --retro-text: var(--ui-text);
+  --retro-text-dim: var(--ui-text-dim);
+  --retro-border: #333333;
+  --retro-amber: var(--ui-amber);
+  --retro-info: #4a9adc;
+}
+
+/* ---- BASE: black everywhere, one font everywhere ---- */
+html,
+body {
+  background: var(--ui-black);
+  font-family: var(--ui-font);
+}
+
+* {
+  font-family: var(--ui-font);
+}
+
+/* ============================================================
+   BUTTONS — blue when unhighlighted, amber on highlight.
+   Cyberpunk-retro bevel + neon glow.
+   ============================================================ */
+button,
+[data-slot='button'],
+.retro-btn {
+  cursor: pointer;
+}
+
+/* The standardized game button (RetroButton, 390+ uses) */
+.retro-btn {
+  background: linear-gradient(180deg, #1a3c61 0%, #142e48 55%, #0f2440 100%);
+  color: #b8d8f8;
+  border: 3px solid var(--ui-blue-border);
+  border-radius: 0;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  box-shadow:
+    inset 1px 1px 0 rgba(110, 190, 255, 0.35),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.7),
+    1px 2px 0 rgba(0, 0, 0, 0.65);
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.retro-btn:hover:not(:disabled) {
+  background: linear-gradient(180deg, #241a00 0%, #181100 55%, #100b00 100%);
+  color: var(--ui-amber-bright);
+  border-color: var(--ui-amber);
+  box-shadow:
+    0 0 14px rgba(212, 160, 23, 0.4),
+    inset 1px 1px 0 rgba(255, 220, 120, 0.25),
+    1px 2px 0 rgba(0, 0, 0, 0.65);
+}
+
+button:active:not(:disabled),
+.retro-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow:
+    inset 1px 1px 3px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(212, 160, 23, 0.3);
+}
+
+button:focus-visible,
+.retro-btn:focus-visible {
+  outline: 2px solid var(--ui-amber);
+  outline-offset: 2px;
+}
+
+/* Unclassed buttons (no background utility) get the blue base so they
+   never vanish on a black backdrop */
+button:not([class*='bg-']):not([class*='border-']):not(.retro-btn):not([data-slot='button']) {
+  background: var(--ui-blue);
+  color: #b8d8f8;
+  border: 2px solid var(--ui-blue-border);
+  border-radius: 0;
+}
+
+button:not([class*='bg-']):not([class*='border-']):not(.retro-btn):not([data-slot='button']):hover:not(:disabled) {
+  color: var(--ui-amber-bright);
+  border-color: var(--ui-amber);
+}
+
+/* shadcn buttons (data-slot button): keep their token background (blue),
+   but highlight amber on hover without clobbering semantic bgs */
+[data-slot='button']:hover:not(:disabled),
+[data-slot='button'][data-state='open'] {
+  color: var(--ui-amber-bright);
+  border-color: var(--ui-amber);
+}
+
+/* Explicitly highlighted / active button — amber base */
+.retro-btn-highlight,
+.btn-amber {
+  background: linear-gradient(180deg, #2a2000 0%, #1a1400 60%, #120d00 100%);
+  color: var(--ui-amber-bright);
+  border-color: var(--ui-amber);
+  box-shadow:
+    0 0 12px rgba(212, 160, 23, 0.35),
+    inset 1px 1px 0 rgba(255, 220, 120, 0.3),
+    1px 2px 0 rgba(0, 0, 0, 0.65);
+}
+
+.retro-btn-highlight:hover:not(:disabled),
+.btn-amber:hover:not(:disabled) {
+  background: linear-gradient(180deg, #362a00 0%, #241a00 60%, #181100 100%);
+  box-shadow:
+    0 0 20px rgba(232, 184, 48, 0.55),
+    inset 1px 1px 0 rgba(255, 235, 160, 0.35);
+}
+
+/* ---- Inputs match the theme ---- */
+input,
+select,
+textarea,
+.retro-input {
+  background: var(--ui-black);
+  color: var(--ui-text);
+  border: 2px solid #333333;
+  border-radius: 0;
+  font-family: var(--ui-font);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.retro-input:focus {
+  outline: none;
+  border-color: var(--ui-amber);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 8px rgba(212, 160, 23, 0.3);
+}
+
+/* ============================================================
+   WINDOWS — slick cyberpunk × retro-OS borders.
+   ============================================================ */
+/* Shared border / background recipe (applies to all window-like elements) */
+.retro-window,
+.retro-window-double,
+.retro-panel,
+.window-frame,
+[data-slot='dialog-content'],
+[data-slot='alert-dialog-content'] {
+  background: var(--ui-black);
+  color: var(--ui-text);
+  border: 3px solid var(--ui-blue);
+  border-radius: 0;
+  outline: 1px solid rgba(74, 122, 156, 0.45);
+  outline-offset: -6px;
+  box-shadow:
+    inset 0 1px 0 rgba(110, 190, 255, 0.18),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.9),
+    inset 3px 0 0 rgba(212, 160, 23, 0.12),
+    inset -3px 0 0 rgba(212, 160, 23, 0.12),
+    0 0 0 3px #050505,
+    0 0 18px rgba(26, 90, 140, 0.18),
+    0 12px 32px rgba(0, 0, 0, 0.7);
+}
+
+/* Static windows / standalone panels: need position:relative for the corner brackets */
+.retro-window,
+.retro-window-double,
+.window-frame {
+  position: relative;
+}
+
+/* Cyberpunk corner brackets (amber) — static windows only */
+.retro-window::before,
+.retro-window-double::before,
+.window-frame::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--ui-amber);
+  border-right: 0;
+  border-bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.retro-window::after,
+.retro-window-double::after,
+.window-frame::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 16px;
+  height: 16px;
+  border: 3px solid var(--ui-amber);
+  border-left: 0;
+  border-top: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.retro-panel-inset {
+  background: var(--ui-black);
+  color: var(--ui-text);
+  border: 2px solid #333333;
+  border-radius: 0;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Title bar — slick retro-OS toolbar */
+.retro-titlebar {
+  background: linear-gradient(180deg, #1f4a74 0%, #16304e 55%, #0f2440 100%);
+  color: #e8f4ff;
+  padding: 6px 12px;
+  font-family: var(--ui-font);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-bottom: 3px solid var(--ui-blue-border);
+  box-shadow:
+    inset 0 1px 0 rgba(140, 210, 255, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ============================================================
+   POPUPS — pop out like a retro operating system window.
+   ============================================================ */
+@keyframes ui-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7) translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.04) translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
+  }
+}
+
+@keyframes ui-pop-clear {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes ui-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Radix dialogs — centered via the CSS `translate` property (Tailwind v4
+   translate-x/y). Use ui-pop-clear (scale + translateY only) — ui-pop bakes a
+   translate(-50%,-50%) into transform, which would DOUBLE the centering shift
+   (translate property + transform) and shove the dialog down-right of center. */
+[data-slot='dialog-content'][data-state='open'],
+[data-slot='alert-dialog-content'][data-state='open'] {
+  animation: ui-pop-clear 0.25s cubic-bezier(0.18, 0.9, 0.32, 1.35) both;
+}
+
+/* Standard windows */
+.window-frame,
+.retro-window,
+.retro-window-double,
+.popup {
+  animation: ui-pop-clear 0.25s cubic-bezier(0.18, 0.9, 0.32, 1.35) both;
+}
+
+/* Any centered overlay modal: pop the inner window (single child) */
+[class*='inset-0'][class*='justify-center'] > :only-child {
+  animation: ui-pop-clear 0.25s cubic-bezier(0.18, 0.9, 0.32, 1.35) both;
+}
+
+/* Overlays fade in */
+[class*='inset-0'][class*='flex'][class*='center'],
+[data-slot='dialog-overlay'],
+[data-slot='alert-dialog-overlay'] {
+  animation: ui-fade 0.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window-frame,
+  .retro-window,
+  .retro-window-double,
+  .popup,
+  [data-slot='dialog-content'],
+  [data-slot='alert-dialog-content'],
+  [class*='inset-0'][class*='justify-center'] > :only-child {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   MINIMUM TEXT SIZE — 16px (12pt), never less.
+   ============================================================ */
+.text-\[7px\] {
+  font-size: 16px;
+}
+.text-\[8px\] {
+  font-size: 16px;
+}
+.text-\[9px\] {
+  font-size: 16px;
+}
+.text-\[10px\] {
+  font-size: 16px;
+}
+.text-\[11px\] {
+  font-size: 16px;
+}
+.text-\[12px\] {
+  font-size: 16px;
+}
+.text-\[13px\] {
+  font-size: 16px;
+}
+.text-\[14px\] {
+  font-size: 16px;
+}
+.text-\[15px\] {
+  font-size: 16px;
+}
+.text-\[0\.55rem\] {
+  font-size: 16px;
+}
+.text-\[0\.6rem\] {
+  font-size: 16px;
+}
+.text-\[0\.65rem\] {
+  font-size: 16px;
+}
+.text-\[0\.8rem\] {
+  font-size: 16px;
+}
+
+/* ============================================================
+   SURFACE BACKGROUNDS — neutral grays resolve to black.
+   ============================================================ */
+.bg-\[#050505\],
+.bg-\[#070707\],
+.bg-\[#080808\],
+.bg-\[#0a0a0a\],
+.bg-\[#0d0d0d\],
+.bg-\[#111\],
+.bg-\[#111111\],
+.bg-\[#1a1a1a\],
+.bg-\[#222\],
+.bg-\[#222222\],
+.bg-\[#262626\],
+.bg-\[#333\],
+.bg-\[#333333\],
+.bg-\[#444444\] {
+  background-color: var(--ui-black);
+}
+
+/* ============================================================
+   TAILWIND GRAY UTILITIES → UNIFIED THEME.
+   Remap the default Tailwind gray scale onto the black/blue/amber
+   theme so no component can drift toward stock-gray chrome.
+   ============================================================ */
+
+/* --- Backgrounds: all grays resolve to black --- */
+.bg-gray-950,
+.bg-gray-900,
+.bg-gray-800,
+.bg-gray-700,
+.bg-gray-600,
+.bg-gray-500,
+.bg-gray-400,
+.bg-gray-300,
+.bg-gray-200,
+.bg-gray-100,
+.bg-gray-50,
+.hover\:bg-gray-900:hover,
+.hover\:bg-gray-800:hover,
+.hover\:bg-gray-700:hover,
+.hover\:bg-gray-600:hover,
+.hover\:bg-gray-500:hover,
+.hover\:bg-gray-400:hover,
+.hover\:bg-gray-300:hover,
+.hover\:bg-gray-200:hover,
+.hover\:bg-gray-100:hover {
+  background-color: var(--ui-black);
+}
+
+/* hover:bg-gray-* on interactive rows/items flips amber instead */
+.hover\:bg-gray-700:hover,
+.hover\:bg-gray-600:hover,
+.hover\:bg-gray-500:hover,
+.hover\:bg-gray-400:hover,
+.hover\:bg-gray-300:hover {
+  color: var(--ui-amber-bright);
+}
+
+/* --- Disabled states stay dark but clearly "off" --- */
+.disabled\:bg-gray-800:disabled,
+.disabled\:bg-gray-700:disabled,
+.disabled\:bg-gray-900:disabled {
+  background-color: var(--ui-black);
+}
+
+/* --- Borders: grays converge on the blue border --- */
+.border-gray-200,
+.border-gray-300,
+.border-gray-400,
+.border-gray-500,
+.border-gray-600,
+.border-gray-700,
+.border-gray-800,
+.border-gray-900,
+.hover\:border-gray-400:hover,
+.hover\:border-gray-500:hover,
+.hover\:border-gray-600:hover,
+.hover\:border-gray-700:hover {
+  border-color: var(--ui-blue-border);
+}
+
+/* Selected/hover borders flip amber so active state reads instantly */
+.border-gray-300,
+.border-gray-400,
+.hover\:border-gray-300:hover,
+.hover\:border-gray-400:hover,
+.hover\:border-gray-500:hover {
+  border-color: var(--ui-amber);
+}
+
+/* --- Text: grays converge on the retro text scale --- */
+.text-gray-100 {
+  color: #e8eef4;
+}
+.text-gray-200,
+.text-gray-300 {
+  color: var(--ui-text);
+}
+.text-gray-400,
+.text-gray-500 {
+  color: var(--ui-text-dim);
+}
+.text-gray-600,
+.text-gray-700 {
+  color: #5a5a5a;
+}
+.hover\:text-gray-200:hover,
+.hover\:text-gray-300:hover,
+.hover\:text-gray-400:hover {
+  color: var(--ui-amber-bright);
+}
+
+/* --- Misc gray utilities --- */
+.ring-gray-600,
+.ring-gray-700 {
+  --tw-ring-color: var(--ui-blue-border);
+}
+.divide-gray-700,
+.divide-gray-800 {
+  border-color: #333333;
+}
+.from-gray-900,
+.from-gray-800,
+.from-gray-700 {
+  --tw-gradient-from: var(--ui-black);
+}
+.to-gray-900,
+.to-gray-800,
+.to-gray-700 {
+  --tw-gradient-to: var(--ui-black);
+}
+.hover\:shadow-gray-500\/50:hover,
+.hover\:shadow-gray-700\/50:hover {
+  --tw-shadow-color: rgba(74, 122, 156, 0.35);
+}
+
+/* ============================================================
+   ARBITRARY-VALUE GRAY UTILITIES → UNIFIED THEME.
+   Same remap as above, but for the `[#...]` literal forms that
+   components use (text-[#666666], border-[#4d4d4d], ...).
+   #333333 stays — it IS the theme's default border token.
+   ============================================================ */
+
+/* --- Backgrounds: mid-grays float to black.
+   (#888/#888888 EXCLUDED: used as light badges with text-black.) --- */
+.bg-\[#262626\],
+.bg-\[#2a2a2a\],
+.bg-\[#4a4a4a\],
+.bg-\[#4d4d4d\],
+.bg-\[#555\],
+.bg-\[#555555\],
+.bg-\[#666\],
+.bg-\[#666666\],
+.bg-\[#777\],
+.bg-\[#7a7a7a\],
+.bg-\[#808080\],
+.bg-\[#8a8a8a\],
+.bg-\[#999\],
+.bg-\[#999999\] {
+  background-color: var(--ui-black);
+}
+
+/* --- Hover surfaces: grays dim to black, interactive hints amber --- */
+.hover\:bg-\[#0d0d0d\]:hover,
+.hover\:bg-\[#111\]:hover,
+.hover\:bg-\[#111111\]:hover,
+.hover\:bg-\[#1a1a1a\]:hover,
+.hover\:bg-\[#222\]:hover,
+.hover\:bg-\[#222222\]:hover,
+.hover\:bg-\[#262626\]:hover,
+.hover\:bg-\[#333\]:hover,
+.hover\:bg-\[#333333\]:hover,
+.hover\:bg-\[#444444\]:hover,
+.hover\:bg-\[#4d4d4d\]:hover,
+.hover\:bg-\[#555\]:hover,
+.hover\:bg-\[#555555\]:hover,
+.hover\:bg-\[#666\]:hover,
+.hover\:bg-\[#666666\]:hover,
+.hover\:bg-\[#777\]:hover,
+.hover\:bg-\[#808080\]:hover,
+.hover\:bg-\[#888\]:hover,
+.hover\:bg-\[#888888\]:hover,
+.hover\:bg-\[#999\]:hover,
+.hover\:bg-\[#999999\]:hover {
+  background-color: var(--ui-black);
+}
+
+/* Mid-gray hovers are interactive — text flips amber for feedback */
+.hover\:bg-\[#4d4d4d\]:hover,
+.hover\:bg-\[#555\]:hover,
+.hover\:bg-\[#555555\]:hover,
+.hover\:bg-\[#666\]:hover,
+.hover\:bg-\[#666666\]:hover,
+.hover\:bg-\[#777\]:hover,
+.hover\:bg-\[#808080\]:hover,
+.hover\:bg-\[#888\]:hover,
+.hover\:bg-\[#888888\]:hover,
+.hover\:bg-\[#999\]:hover {
+  color: var(--ui-amber-bright);
+}
+
+/* --- Borders: drift grays converge on the blue border (#333 stays) --- */
+.border-\[#222\],
+.border-\[#222222\],
+.border-\[#262626\],
+.border-\[#444444\],
+.border-\[#4a4a4a\],
+.border-\[#4d4d4d\],
+.border-\[#555\],
+.border-\[#555555\],
+.border-\[#666\],
+.border-\[#666666\],
+.border-\[#777\],
+.border-\[#7a7a7a\],
+.border-\[#808080\],
+.border-\[#888\],
+.border-\[#888888\],
+.border-\[#999\],
+.border-\[#999999\],
+.border-\[#aaa\],
+.border-\[#ccc\],
+.border-x-\[#666666\],
+.border-b-\[#444444\],
+.border-b-\[#4d4d4d\],
+.border-b-\[#666666\],
+.border-t-\[#444444\],
+.border-t-\[#4d4d4d\],
+.border-t-\[#666666\],
+.border-l-\[#444444\],
+.border-l-\[#666666\],
+.border-r-\[#444444\],
+.border-r-\[#666666\],
+.group:hover .group-hover\:border-\[#666\],
+.group:hover .group-hover\:border-\[#666666\],
+.group:hover .group-hover\:border-\[#888888\],
+.group:hover .group-hover\:border-\[#999\] {
+  border-color: var(--ui-blue-border);
+}
+
+/* Selected/hover borders flip amber — active state reads instantly */
+.hover\:border-\[#4d4d4d\]:hover,
+.hover\:border-\[#555\]:hover,
+.hover\:border-\[#555555\]:hover,
+.hover\:border-\[#666\]:hover,
+.hover\:border-\[#666666\]:hover,
+.hover\:border-\[#777\]:hover,
+.hover\:border-\[#888\]:hover,
+.hover\:border-\[#888888\]:hover,
+.hover\:border-\[#999\]:hover,
+.group:hover .group-hover\:border-\[#444444\],
+.group:hover .group-hover\:border-\[#4d4d4d\],
+.group:hover .group-hover\:border-\[#666\],
+.group:hover .group-hover\:border-\[#666666\] {
+  border-color: var(--ui-amber);
+}
+
+/* --- Text: mid-grays converge on the retro text scale --- */
+.text-\[#9c9c9c\],
+.text-\[#999\],
+.text-\[#999999\],
+.text-\[#8a8a8a\],
+.text-\[#888\],
+.text-\[#888888\],
+.text-\[#808080\] {
+  color: var(--ui-text-dim);
+}
+.text-\[#777\],
+.text-\[#7a7a7a\],
+.text-\[#666\],
+.text-\[#666666\],
+.text-\[#5a5a5a\],
+.text-\[#555\],
+.text-\[#555555\],
+.text-\[#4d4d4d\],
+.text-\[#4a4a4a\] {
+  color: #5a5a5a;
+}
+
+/* Interactive text hovers flip amber */
+.hover\:text-\[#999\]:hover,
+.hover\:text-\[#999999\]:hover,
+.hover\:text-\[#888\]:hover,
+.hover\:text-\[#888888\]:hover,
+.hover\:text-\[#808080\]:hover,
+.hover\:text-\[#777\]:hover,
+.hover\:text-\[#666\]:hover,
+.hover\:text-\[#666666\]:hover,
+.hover\:text-\[#555\]:hover,
+.hover\:text-\[#e0e0e0\]:hover {
+  color: var(--ui-amber-bright);
+}

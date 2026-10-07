@@ -1,0 +1,60 @@
+name: Deploy admin panel to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One Pages deployment at a time.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Public backend API. The admin endpoints are gated by the admin JWT
+      # server-side; this value being public in the bundle is fine.
+      VITE_API_URL: https://play.primordiaexe.online
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      # Project sites live under /<repo>/, user/org sites at /. Detect which
+      # this is so vite.config.ts needs no edits after a rename.
+      - id: base
+        shell: bash
+        run: |
+          repo="${GITHUB_REPOSITORY#*/}"
+          owner="${GITHUB_REPOSITORY%%/*}"
+          if [ "$repo" = "$owner.github.io" ]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/$repo/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - run: VITE_BASE=${{ steps.base.outputs.base }} npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
