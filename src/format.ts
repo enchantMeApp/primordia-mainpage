@@ -35,3 +35,11 @@ export function timeAgo(epochMs: number): string {
   if (h < 24) return `${h}h ${m % 60}m ago`;
   return `${Math.floor(h / 24)}d ago`;
 }
+
+export function displayName(p: {
+  charName: string | null;
+  login: string | null;
+  userId: number;
+}): string {
+  return p.charName || p.login || `#${p.userId}`;
+}

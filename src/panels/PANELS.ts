@@ -1,7 +1,10 @@
 import type { ComponentType } from 'react';
 import { Overview } from './Overview';
 import { PlayersOnline } from './PlayersOnline';
+import { RecentOnline } from './RecentOnline';
 import { ChatHistory } from './ChatHistory';
+import { Locations } from './Locations';
+import { Accounts } from './Accounts';
 import { RestartPanel } from './RestartPanel';
 
 export interface PanelDef {
@@ -18,6 +21,9 @@ export interface PanelDef {
 export const PANELS: PanelDef[] = [
   { id: 'overview', label: 'Overview', hint: 'Server health & stats', Component: Overview },
   { id: 'players', label: 'Players Online', hint: 'Live connections', Component: PlayersOnline },
+  { id: 'recent', label: 'Last Online', hint: 'Recent activity', Component: RecentOnline },
   { id: 'chat', label: 'Chat History', hint: 'Global channel archive', Component: ChatHistory },
+  { id: 'locations', label: 'Locations', hint: 'Where players are', Component: Locations },
+  { id: 'accounts', label: 'Accounts', hint: 'Signups & growth', Component: Accounts },
   { id: 'restart', label: 'Restart', hint: 'Danger zone', danger: true, Component: RestartPanel },
 ];

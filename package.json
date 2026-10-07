@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
+    "deploy": "git add -A && (git diff --cached --quiet || git commit -m \"admin update\") && git push",
     "sync:styles": "node scripts/sync-styles.mjs"
   },
   "dependencies": {
