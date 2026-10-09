@@ -130,3 +130,111 @@ export interface RestartResponse {
   scheduled: boolean;
   target: string;
 }
+
+// ---- redeem codes --------------------------------------------------------
+
+export type RewardType =
+  | 'bonds'
+  | 'lore'
+  | 'stat_points'
+  | 'resource'
+  | 'item'
+  | 'blueprint'
+  | 'cosmetic'
+  | 'egg';
+
+export type EggSelectorMode = 'fixed' | 'pool' | 'range' | 'random';
+
+export type EggSelector =
+  | { mode: 'fixed'; value: string | number }
+  | { mode: 'pool'; values: (string | number)[] }
+  | { mode: 'range'; min: number; max: number }
+  | { mode: 'random' };
+
+export type EggStatKey = 'attack' | 'defense' | 'speed' | 'vig';
+
+export interface EggSpec {
+  species: EggSelector;
+  gender: EggSelector;
+  color: EggSelector;
+  stats?: Partial<Record<EggStatKey, EggSelector>>;
+}
+
+export interface Reward {
+  type: RewardType;
+  amount?: number;
+  resource?: string;
+  item?: string;
+  blueprint?: string;
+  tier?: string;
+  kind?: string;
+  key?: string;
+  egg?: EggSpec;
+}
+
+export interface RedeemCode {
+  code: string;
+  label?: string;
+  active: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  rewards: Reward[];
+}
+
+export interface SimpleCatalogEntry {
+  key: string;
+  name: string;
+}
+
+export interface ItemCatalogEntry extends SimpleCatalogEntry {
+  type: string;
+  stackable: boolean;
+}
+
+export interface BlueprintTierEntry extends SimpleCatalogEntry {
+  uses: number;
+  min_percentage: number;
+  max_percentage: number;
+}
+
+export interface EggSpeciesEntry extends SimpleCatalogEntry {
+  stats: Record<EggStatKey, number>;
+}
+
+export interface EggColorEntry {
+  value: number;
+  name: string;
+}
+
+export interface EggStatEntry {
+  key: EggStatKey;
+  name: string;
+}
+
+export interface EggCatalogs {
+  species: EggSpeciesEntry[];
+  genders: string[];
+  colors: EggColorEntry[];
+  stats: EggStatEntry[];
+  maxEggAmount: number;
+  maxColor: number;
+  maxStat: number;
+}
+
+export interface CodesCatalogs {
+  balanceKinds: { type: RewardType; name: string }[];
+  resources: SimpleCatalogEntry[];
+  items: ItemCatalogEntry[];
+  blueprints: { key: string; name: string; item_key: string }[];
+  blueprintTiers: BlueprintTierEntry[];
+  cosmetics: Record<string, SimpleCatalogEntry[]>;
+  eggs: EggCatalogs;
+}
+
+export interface CodesResponse {
+  codes: RedeemCode[];
+}
+
+export interface CodeResponse {
+  code: RedeemCode;
+}
