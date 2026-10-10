@@ -52,6 +52,38 @@ export interface LastOnlineResponse {
   players: RecentPlayer[];
 }
 
+export interface PlayerSessionDetail {
+  id: number;
+  startedAtMs: number;
+  lastActivityMs: number;
+  endedAtMs: number | null;
+  endScreen: string | null;
+  ongoing: boolean;
+  durationMs: number;
+}
+
+export interface SessionEvent {
+  id: number;
+  action: string;
+  label: string;
+  detail: string | null;
+  screen: string | null;
+  createdAtMs: number;
+}
+
+export interface PlayerSessionResponse {
+  userId: number;
+  player: {
+    login: string | null;
+    charName: string | null;
+    playerTag: string | null;
+    level: number;
+    location: string | null;
+  };
+  session: PlayerSessionDetail | null;
+  events: SessionEvent[];
+}
+
 export interface AccountRow {
   userId: number;
   login: string | null;
