@@ -3,6 +3,7 @@ import { Overview } from './Overview';
 import { PlayersOnline } from './PlayersOnline';
 import { RecentOnline } from './RecentOnline';
 import { ChatHistory } from './ChatHistory';
+import { AnnouncementsPanel } from './AnnouncementsPanel';
 import { Locations } from './Locations';
 import { Accounts } from './Accounts';
 import { CodesPanel } from './CodesPanel';
@@ -24,6 +25,7 @@ export const PANELS: PanelDef[] = [
   { id: 'players', label: 'Players Online', hint: 'Live connections', Component: PlayersOnline },
   { id: 'recent', label: 'Last Online', hint: 'Recent activity', Component: RecentOnline },
   { id: 'chat', label: 'Chat History', hint: 'Global channel archive', Component: ChatHistory },
+  { id: 'announcements', label: 'Announcements', hint: 'Header ticker messages', Component: AnnouncementsPanel },
   { id: 'locations', label: 'Locations', hint: 'Where players are', Component: Locations },
   { id: 'accounts', label: 'Accounts', hint: 'Signups & growth', Component: Accounts },
   { id: 'codes', label: 'Redeem Codes', hint: 'Create & revoke codes', Component: CodesPanel },

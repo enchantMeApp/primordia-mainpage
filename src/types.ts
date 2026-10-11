@@ -270,3 +270,24 @@ export interface CodesResponse {
 export interface CodeResponse {
   code: RedeemCode;
 }
+
+// ---- announcements -------------------------------------------------------
+
+export interface AdminAnnouncement {
+  id: string;
+  text: string;
+  color: string;
+  source: 'admin' | 'file';
+  expiresAt: number | null;
+}
+
+export interface AdminAnnouncementsResponse {
+  admin: AdminAnnouncement[];
+  file: AdminAnnouncement[];
+}
+
+export interface AnnouncementCreateResponse {
+  ok: boolean;
+  announcement: AdminAnnouncement;
+  announcements: AdminAnnouncement[];
+}
