@@ -8,6 +8,7 @@ import { Locations } from './Locations';
 import { Accounts } from './Accounts';
 import { CodesPanel } from './CodesPanel';
 import { RestartPanel } from './RestartPanel';
+import { RepopulationPanel } from './RepopulationPanel';
 
 export interface PanelDef {
   id: string;
@@ -26,6 +27,7 @@ export const PANELS: PanelDef[] = [
   { id: 'recent', label: 'Last Online', hint: 'Recent activity', Component: RecentOnline },
   { id: 'chat', label: 'Chat History', hint: 'Global channel archive', Component: ChatHistory },
   { id: 'announcements', label: 'Announcements', hint: 'Header ticker messages', Component: AnnouncementsPanel },
+  { id: 'repopulation', label: 'Repopulation', hint: 'Force repop worker', Component: RepopulationPanel },
   { id: 'locations', label: 'Locations', hint: 'Where players are', Component: Locations },
   { id: 'accounts', label: 'Accounts', hint: 'Signups & growth', Component: Accounts },
   { id: 'codes', label: 'Redeem Codes', hint: 'Create & revoke codes', Component: CodesPanel },

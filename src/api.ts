@@ -67,3 +67,16 @@ export const api = {
     }),
   del: <T>(path: string) => request<T>(path, { method: 'DELETE' }),
 };
+
+export interface RepopLocation {
+  sectorKey: string;
+  locationKey: string;
+  name: string;
+  sectorName: string;
+}
+
+export interface RepopResponse {
+  ok: boolean;
+  queued?: boolean;
+  error?: string;
+}
